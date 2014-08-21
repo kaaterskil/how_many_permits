@@ -40,6 +40,7 @@ gem 'spring',        group: :development
 
 # Additional gems for this project
 gem 'devise'
+gem 'cancan'
 gem 'rails_admin'
 gem 'angularjs-rails', '~> 1.2.21'
 gem 'active_model_serializers'
