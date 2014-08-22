@@ -41,7 +41,8 @@ gem 'spring',        group: :development
 # Additional gems for this project
 gem 'devise'
 gem 'cancan'
-gem 'rails_admin'
+gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
+gem 'paper_trail', '~> 3.0.3'
 gem 'angularjs-rails', '~> 1.2.21'
 gem 'active_model_serializers'
 
