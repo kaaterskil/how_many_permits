@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ISDApp">
 <head>
   <title>What Permits Do I Need?</title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
@@ -11,7 +11,7 @@
     <%= render 'layouts/navigation' %>
   </header>
 
-  <div>
+  <div ng-view>
     <%= render 'layouts/messages' %>
     <%= yield %>
   </div>
