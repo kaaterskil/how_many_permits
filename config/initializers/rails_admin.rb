@@ -37,12 +37,17 @@ RailsAdmin.config do |config|
   config.excluded_models = ['StepLine', 'ResponseLine']
 
   config.model Step do
-    # include_all_fields
+    field :continue_btn_text do
+      label 'Continue Button Text'
+    end
   end
 
   config.model Response do
     parent Step
-    # include_all_fields
+    exclude_fields :created_at, :updated_at
+    field :check_box_text do
+      label 'Question Checkbox Text'
+    end
   end
 
   config.model Questionnaire do

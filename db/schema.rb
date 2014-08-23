@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140822105357) do
+ActiveRecord::Schema.define(version: 20140822180341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,15 +34,19 @@ ActiveRecord::Schema.define(version: 20140822105357) do
   add_index "response_lines", ["response_id"], name: "index_response_lines_on_response_id", using: :btree
 
   create_table "responses", force: true do |t|
-    t.integer "step_id",          null: false
-    t.string  "title",            null: false
+    t.integer "step_id",                          null: false
+    t.string  "title",                            null: false
     t.text    "text"
     t.integer "next_step_id"
     t.string  "required_permit"
     t.text    "result_text"
     t.text    "result_resources"
+    t.string  "check_box_text"
+    t.boolean "must_branch",      default: false, null: false
+    t.integer "branch_step_id"
   end
 
+  add_index "responses", ["branch_step_id"], name: "index_responses_on_branch_step_id", using: :btree
   add_index "responses", ["next_step_id"], name: "index_responses_on_next_step_id", using: :btree
   add_index "responses", ["required_permit"], name: "index_responses_on_required_permit", using: :btree
   add_index "responses", ["step_id"], name: "index_responses_on_step_id", using: :btree

@@ -1,12 +1,16 @@
 class Step < ActiveRecord::Base
-  CATEGORIES = %w[Information Initial General Construction Business Types]
+  after_initialize :set_default_button_text, :if => :new_record?
 
   has_many :responses, inverse_of: :step
 
   validates :title, :text, :category, presence: true
-  validates :category, inclusion: { in: CATEGORIES }
+  validates :category, inclusion: { in: :category_enum }
 
   def category_enum
     ['information', 'initial', 'general', 'construction', 'business', 'business_type']
+  end
+
+  def set_default_button_text
+    self.continue_btn_text ||= 'Next'
   end
 end
