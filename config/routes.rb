@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
 
+  resources :steps, only: ['index']
+  resources :responses, only: ['index']
+
   root 'index#show'
 
   get ':controller(/:action(/:id(.:format)))'

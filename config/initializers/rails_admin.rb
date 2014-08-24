@@ -1,6 +1,6 @@
 RailsAdmin.config do |config|
 
-  config.main_app_name = ['How Many Permits Do I Need?', 'Back Office']
+  config.main_app_name = ['What Permits Do I Need?', 'Back Office']
 
   ### Popular gems integration
 
@@ -37,6 +37,7 @@ RailsAdmin.config do |config|
   config.excluded_models = ['StepLine', 'ResponseLine']
 
   config.model Step do
+    exclude_fields :created_at, :updated_at
     field :continue_btn_text do
       label 'Continue Button Text'
     end

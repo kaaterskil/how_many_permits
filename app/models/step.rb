@@ -7,7 +7,7 @@ class Step < ActiveRecord::Base
   validates :category, inclusion: { in: :category_enum }
 
   def category_enum
-    ['information', 'initial', 'general', 'construction', 'business', 'business_type']
+    ['Information', 'Initial', 'General', 'Construction', 'Construction Specific','Business', 'Business Specific']
   end
 
   def set_default_button_text
