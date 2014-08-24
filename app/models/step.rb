@@ -1,7 +1,7 @@
 class Step < ActiveRecord::Base
   after_initialize :set_default_button_text, :if => :new_record?
 
-  has_many :responses, inverse_of: :step
+  has_many :responses
 
   validates :title, :text, :category, presence: true
   validates :category, inclusion: { in: :category_enum }
