@@ -1,10 +1,11 @@
-(function StepsIIFE(){
-  var Steps = function(){
-    var that = {};
-    that.Step = Step;
-
+(function(){
+  var step = function(){
     function Step(props){
-      var _data = props || {};
+      var _data = {};
+      for(prop in props) {
+        _data[prop] = props[prop];
+      }
+      _data['responses'] = [];
 
       this.get = function(prop){
         if(typeof prop !== 'undefined') {
@@ -24,6 +25,10 @@
     }
 
     Step.prototype = {
+      id : function(){
+        return this.get('id');
+      },
+
       title : function(){
         return this.get('title');
       },
@@ -64,9 +69,26 @@
       }
     };
 
-    return that;
+    Step.build = function(props){
+      return new Step(props);
+    }
+
+    Step.apiResponseTransform = function(jsonData){
+      if(angular.isArray(jsonData)) {
+        var result = {};
+        var foo = jsonData.map(Step.build);
+        foo.forEach(function(step){
+          result[step.id()] = step;
+        });
+        return result;
+      }
+      return Step.build(jsonData);
+    };
+
+    // Return the constructor
+    return Step;
   }
 
-  var steps = angular.module('ISDApp.steps', []);
-  steps.factory('Steps', Steps);
+  var module = angular.module('ISDApp.step');
+  module.factory('Step', step);
 })();

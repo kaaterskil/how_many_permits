@@ -1,10 +1,13 @@
 (function IndexControllerIIFE($){
-  var IndexController = function($scope, initialData, resultsHelper){
-    var steps = initialData.steps;
+  var IndexController = function($scope, steps){
+    var store = {};
 
-    function init(step){
+    function init(name){
+      for(key in steps){
+        store[steps[key].title()] = steps[key];
+      }
       $scope.resultset = [];
-      reset(step);
+      reset(store[name]);
     }
 
     function reset(step){
@@ -17,7 +20,7 @@
       $scope.continueBtnText = step.continueBtnText();
     }
 
-    init(steps['Welcome']);
+    init('Welcome');
 
     $scope.execute = function(response){
       $scope.nextStep = $scope.step.execute(response);
@@ -36,6 +39,6 @@
     }
   };
 
-  var app = angular.module('ISDApp.controllers', ['ISDApp.initialData', 'ISDApp.resultsHelper']);
+  var app = angular.module('ISDApp.controllers');
   app.controller('indexController', IndexController);
 })(jQuery);

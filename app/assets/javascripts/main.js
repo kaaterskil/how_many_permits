@@ -1,9 +1,14 @@
 (function ISDApp(){
+  angular.module('ISDApp.step', []);
+  angular.module('ISDApp.response', ['ISDApp.step']);
+  angular.module('ISDApp.dataServices', []);
+  angular.module('ISDApp.controllers', []);
+
   var app = angular.module('ISDApp', [
     'ngRoute',
-    'ISDApp.stepService',
-    'ISDApp.steps',
-    'ISDApp.initialData',
+    'ISDApp.step',
+    'ISDApp.response',
+    'ISDApp.dataServices',
     'ISDApp.controllers'
   ]);
 
@@ -13,8 +18,19 @@
       controller: 'indexController',
       templateUrl: '../templates/index.html',
       resolve: {
-        initialData : function(InitialData){
-          return InitialData();
+        steps: function(DataService, Step, Response){
+          return DataService.getStepData()
+          .then(function(stepJson){
+            return Step.apiResponseTransform(stepJson);
+          })
+          .then(function(steps){
+            // Nest this promise so it waits until the first is resolved.
+            return DataService.getResponseData()
+            .then(function(responseJson){
+              Response.apiResponseTransform(responseJson, steps);
+              return steps;
+            });
+          });
         }
       }
     });
