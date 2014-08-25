@@ -73,6 +73,13 @@
           return response.getNextStep();
         }
         return undefined;
+      },
+
+      compare : function(a, b){
+        var categoryA = a.category(),
+        categoryB = b.category();
+
+        return categoryA < categoryB ? -1 : (categoryA > categoryB ? 1 : 0);
       }
     };
 
@@ -83,8 +90,8 @@
     Step.apiResponseTransform = function(jsonData){
       if(angular.isArray(jsonData)) {
         var result = {};
-        var foo = jsonData.map(Step.build);
-        foo.forEach(function(step){
+        var temp = jsonData.map(Step.build);
+        temp.forEach(function(step){
           result[step.id()] = step;
         });
         return result;

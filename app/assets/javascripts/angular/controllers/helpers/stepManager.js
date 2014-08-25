@@ -1,8 +1,16 @@
 (function(window, $){
-  var stepManager = function(){
-    var _store = {};
+  var stepManager = function(Step){
+    var _store = {},
+    _index = [];
 
     //---------- Private functions ----------//
+
+    function initializeIndex(){
+      for(step in _store){
+        _index.push(_store[step]);
+      }
+      _index.sort(Step.compare);
+    }
 
     function randomColor(){
       var letters = '0123456789ABCDEF'.split('');
@@ -33,19 +41,20 @@
       color = randomColor(),
       step, key, category, stepContainer, stepBox, color, newX, newY, rotation;
 
-      $('#wheel').css({
-        'top': (origin.y - 862) + 'px',
+      $('#wheel-container').css({
+        'top': 300,
         'left': (origin.x - 862) + 'px'
       });
 
       // iterate through the store
+      initializeIndex();
       for(var j = (numSteps - 1); j >= 0; j -= 1) {
-        key = keys[j];
-        step = _store[key];
+      // for(var j = 0; j < numSteps; j += 1) {
+        step = _index[j];
 
         // Compute top and left coordinates
-        newX = origin.x + (Math.sin(radians) * radius) - 100;
-        newY = origin.y + (Math.cos(radians) * radius) - 162;
+        newX = Math.floor(origin.x + (Math.sin(radians) * radius) - 100);
+        newY = Math.floor(origin.y + (Math.cos(radians) * radius) - 162);
 
         // Compute other attributes
         if(category !== step.category()) {
@@ -63,27 +72,27 @@
         });
         $(stepBox).append('<div class="step-title">' + step.title() + '</div>');
         $(stepBox).append('<div class="step-text">' + step.text() + '</div>');
-        $(stepBox).append('<div class="step-id">' + step.id() + '</div>');
-        $(stepBox).css({
-          'background': color
-        });
+        // $(stepBox).append('<div class="step-id">' + (j + 1) + '</div>');
+        $(stepBox).css({'background': color});
 
         // Create and position the box container
         stepContainer = document.createElement('div');
         $(stepContainer).addClass('step-container');
         $(stepContainer).attr('id', 'item' + step.id());
         $(stepContainer).css({
-          'top': newY.toFixed(2) + 'px',
-          'left': newX.toFixed(2) + 'px',
-          '-ms-transform': 'rotate(' + rotation + 'deg)',
+          'top': newY + 'px',
+          'left': newX + 'px',
           '-webkit-transform': 'rotate(' + rotation + 'deg)',
+          '-moz-transform': 'rotate(' + rotation + 'deg)',
+          '-o-transform': 'rotate(' + rotation + 'deg)',
           'transform': 'rotate(' + rotation + 'deg)'
         });
         $(stepContainer).append($(stepBox))
         $('#wheel').append($(stepContainer));
 
         // Set the step rotation
-        _store[key].rotation(radians);
+        // _store[key].rotation(radians);
+        _index[j].rotation(radians);
 
         // Increment the rotation for the nexxt iteration
         radians -= radIncrement;
@@ -97,8 +106,10 @@
       degrees = radiansToDegrees(radians);
 
       // Now spin it 3x
-      $('#wheel').velocity({rotateZ: (1080 - degrees)}, 1500);
       $('#item' + _store[stepTitle].id()).css('z-index', 1000);
+      $('#wheel').velocity({transformOriginX: '862px', transformOriginY: '862px'});
+      $('#wheel').velocity({ rotateZ: (1080 + degrees) }, { duration: 1500 })
+      .velocity({scaleX: 2, scaleY: 2 }, { duration: 2000 });
     }
 
     function get(title){

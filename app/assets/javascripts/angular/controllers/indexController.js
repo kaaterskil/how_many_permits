@@ -3,10 +3,9 @@
 
     function init(stepTitle){
       $scope.resultset = [];
-      stepManager.setStore(steps)
-      reset(stepTitle);
+      stepManager.setStore(steps);
       stepManager.initializeWheel();
-      stepManager.spin(stepTitle);
+      reset(stepTitle);
     }
 
     function reset(stepTitle){

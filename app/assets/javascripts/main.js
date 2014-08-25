@@ -2,7 +2,7 @@
   angular.module('ISDApp.step', []);
   angular.module('ISDApp.response', ['ISDApp.step']);
   angular.module('ISDApp.dataServices', []);
-  angular.module('ISDApp.stepManager', []);
+  angular.module('ISDApp.stepManager', ['ISDApp.step']);
   angular.module('ISDApp.controllers', ['ISDApp.stepManager']);
 
   var app = angular.module('ISDApp', [
