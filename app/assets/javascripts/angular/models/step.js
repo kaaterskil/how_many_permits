@@ -6,7 +6,6 @@
         _data[prop] = props[prop];
       }
       _data['responses'] = [];
-      _data['position'] = {x: 0, y: 0};
 
       this.get = function(prop){
         if(typeof prop !== 'undefined') {
@@ -44,13 +43,6 @@
 
       continueBtnText : function(){
         return this.get('continue_btn_text');
-      },
-
-      center : function(position){
-        if(typeof position !== 'undefined') {
-          this.set('position', position);
-        }
-        return this.get('position');
       },
 
       rotation : function(rotation){

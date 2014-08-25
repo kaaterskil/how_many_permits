@@ -1,14 +1,16 @@
 (function IndexControllerIIFE($){
   var IndexController = function($scope, steps, stepManager){
 
-    function init(name){
-      stepManager.setStore(steps)
+    function init(stepTitle){
       $scope.resultset = [];
-      reset(stepManager.get(name));
+      stepManager.setStore(steps)
+      reset(stepTitle);
       stepManager.initializeWheel();
+      stepManager.spin(stepTitle);
     }
 
-    function reset(step){
+    function reset(stepTitle){
+      var step = stepManager.get(stepTitle);
       $scope.step = step;
       $scope.question = step.text();
       $scope.responses = step.responses();
@@ -16,6 +18,7 @@
       $scope.nextStep = undefined;
       $scope.showResponse = false;
       $scope.continueBtnText = step.continueBtnText();
+      stepManager.spin(stepTitle);
     }
 
     init('Welcome');
@@ -32,7 +35,7 @@
       if($scope.responses.length === 1) {
         $scope.nextStep = $scope.step.execute($scope.responses[0]);
       }
-      reset($scope.nextStep);
+      reset($scope.nextStep.title());
       $(':radio').prop('checked', false);
     }
   };

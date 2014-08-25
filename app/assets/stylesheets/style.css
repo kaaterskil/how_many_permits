@@ -57,35 +57,59 @@ button {
 }
 
 #wheel-container {
-  position.relative;
+  display: block;
+  height: 1724px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 1724px;
 }
 
 #wheel {
-  height: 1000px;
+  display: block;
+  height: 1724px;
+  margin: 0;
+  padding: 0;
   position: absolute;
-  width: 1000px;
+  width: 1724px;
 }
 
 .step-container{
+  height: 324px;
   position: absolute;
+  width: 200px;
 }
 
 .step-box{
   color: #fff;
   font-family: 'merriweather', Georgia, serif;
   height: 324px;
-  padding: 10px;
+  left: 0;
+  padding: 20px;
   position: relative;
+  top: 0;
   width: 200px;
+}
+
+.step-category {
+  font-size: 11px;
+  text-transform: uppercase;
 }
 
 .step-title {
   font-size: 24px;
+  font-weight: bold;
+  padding-bottom: 10px;
 }
 
 .step-text{
   font-size: 11px;
-  bottom: 0px;
+}
+
+.step-id{
+  bottom: 5px;
+  font-size: 36px;
+  position: absolute;
 }
 
 .response-text {
