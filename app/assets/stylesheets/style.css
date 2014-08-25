@@ -58,9 +58,12 @@ button {
 
 #wheel-container {
   display: block;
+  height: 1724px;
   margin: 0;
   padding: 0;
-  position: relative;
+  position: fixed;
+  top: 300px;
+  width: 1724px;
 }
 
 #wheel {
@@ -69,9 +72,8 @@ button {
   left: 0;
   margin: 0;
   padding: 0;
-  position: relative;
+  position: absolute;
   top: 0;
-  transform-origin: 50% 50%;
   width: 1724px;
 }
 
@@ -82,6 +84,7 @@ button {
 }
 
 .step-box{
+  border-radius: 5px;
   color: #fff;
   font-family: 'merriweather', Georgia, serif;
   height: 324px;
@@ -93,24 +96,34 @@ button {
 }
 
 .step-category {
-  font-size: 11px;
+  float: right;
+  font-family: 'proximanova', Helvetica, Arial, sans-serif;
+  font-size: 9px;
   text-transform: uppercase;
 }
 
 .step-title {
+  clear: right;
   font-size: 24px;
   font-weight: bold;
-  padding-bottom: 10px;
+  padding: 10px 0;
 }
 
 .step-text{
-  font-size: 11px;
+  font-size: 9px;
 }
 
 .step-id{
   bottom: 5px;
   font-size: 36px;
   position: absolute;
+}
+
+.step-continue-btn {
+  border-radius: 2px;
+  font-family: 'merriweather', Georgia, serif;
+  font-size: 9px;
+  padding: 2px 5px;
 }
 
 .response-text {
