@@ -56,13 +56,36 @@ button {
   padding: 3px 10px;
 }
 
-#roadmap {
-  width: 80%;
-  height: 100px;
-  margin-left: 10%;
+#wheel-container {
+  position.relative;
 }
 
-.question {
+#wheel {
+  height: 1000px;
+  position: absolute;
+  width: 1000px;
+}
+
+.step-container{
+  position: absolute;
+}
+
+.step-box{
+  color: #fff;
+  font-family: 'merriweather', Georgia, serif;
+  height: 324px;
+  padding: 10px;
+  position: relative;
+  width: 200px;
+}
+
+.step-title {
+  font-size: 24px;
+}
+
+.step-text{
+  font-size: 11px;
+  bottom: 0px;
 }
 
 .response-text {

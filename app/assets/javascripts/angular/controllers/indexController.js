@@ -1,13 +1,11 @@
 (function IndexControllerIIFE($){
-  var IndexController = function($scope, steps){
-    var store = {};
+  var IndexController = function($scope, steps, stepManager){
 
     function init(name){
-      for(key in steps){
-        store[steps[key].title()] = steps[key];
-      }
+      stepManager.setStore(steps)
       $scope.resultset = [];
-      reset(store[name]);
+      reset(stepManager.get(name));
+      stepManager.initializeWheel();
     }
 
     function reset(step){
