@@ -8,15 +8,15 @@
       reset(stepTitle);
     }
 
-    function reset(stepTitle){
-      var step = stepManager.get(stepTitle);
-      $scope.step = step;
-      $scope.question = step.text();
-      $scope.responses = step.responses();
-      $scope.responseText = '';
+    function reset(stepTitle, shrink){
+      var nextStep = stepManager.get(stepTitle)
+      shrink = shrink || false;
+
+      if(shrink) {
+        stepManager.shrinkBox($scope.step, nextStep);
+      }
+      $scope.step = nextStep;
       $scope.nextStep = undefined;
-      $scope.showResponse = false;
-      $scope.continueBtnText = step.continueBtnText();
       stepManager.spin(stepTitle);
     }
 
@@ -24,18 +24,16 @@
 
     $scope.execute = function(response){
       $scope.nextStep = $scope.step.execute(response);
-      $scope.responseText = response.resultText();
-      $scope.resources = response.resultResource();
-      $scope.showResponse = true;
-      resultsHelper.setResults($scope, response);
+      // resultsHelper.setResults($scope, response);
     }
 
     $scope.continue = function(){
-      if($scope.responses.length === 1) {
-        $scope.nextStep = $scope.step.execute($scope.responses[0]);
+      var responses = $scope.step.responses();
+      if(responses.length === 1) {
+        $scope.nextStep = $scope.step.execute(responses[0]);
+        stepManager.shrinkBox($scope.step, $scope.nextStep);
       }
-      reset($scope.nextStep.title());
-      $(':radio').prop('checked', false);
+      reset($scope.nextStep.title(), true);
     }
   };
 

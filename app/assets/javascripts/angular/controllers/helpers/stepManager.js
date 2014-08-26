@@ -12,6 +12,12 @@
       _index.sort(Step.compare);
     }
 
+    function getScope(){
+      var app = document.querySelector('[ng-app=ISDApp]'),
+      appScope = angular.element(app).scope();
+      return appScope.$$childHead;
+    }
+
     function randomColor(){
       var letters = '0123456789ABCDEF'.split('');
       var color = '#';
@@ -25,41 +31,94 @@
       return Math.floor((radians + Math.PI) * 180 / Math.PI);
     }
 
-    function showBox(stepTitle, degrees){
+    function setResultText(step, $container, radioBtnTxt){
+      var responses = step.responses(),
+      responseText, response;
+
+      // Select or create a new response text element
+      if($container.children('.step-response-text').length) {
+        responseText = $container.children('.step-response-text');
+      } else {
+        responseText = document.createElement('div');
+        $(responseText).addClass('step-response-text');
+        $container.prepend($(responseText));
+      }
+
+      // Assign the response text
+      for(var j = 0; j < responses.length; j++) {
+        response = responses[j];
+        if(response.radioBtnText() === radioBtnTxt) {
+          $(responseText).html(response.text());
+        }
+      }
+    }
+
+    function createOrShowBoxForm(stepTitle, stepId){
+      var ctrlScope = getScope();
+
+      if($(stepId + ' .step-box .step-form-container').length === 0){
+        var step = _store[stepTitle],
+        responses = step.responses(),
+        formContainer = document.createElement('div');
+        $(formContainer).addClass('step-form-container');
+
+        var responseContainer = document.createElement('div');
+        $(responseContainer).addClass('step-response-container');
+        if(responses.length > 1) {
+          $(responseContainer).addClass('hidden');
+        }
+
+        if(responses.length > 1) {
+          var response, title, id, $label, $radioBtn;
+          for(var j = 0; j < responses.length; j += 1) {
+            response = responses[j];
+            title = stepTitle.replace(/\s/g, '_');
+            id = title + '_' + j;
+
+            $label = $('<div class="step-response-btn"><label for="' + id + '">' + response.radioBtnText() + '</label></div>');
+            $radioBtn = $('<input type="radio">')
+            .attr({
+              id: id,
+              name: title,
+              value: response.radioBtnText()
+            })
+            .data({
+              step: step.id(),
+              response: response.id()
+            })
+            .on('click', function(event){
+              if($(event.target).prop('checked') === true){
+                ctrlScope.execute(response);
+                setResultText(step, $(responseContainer), $(this).val());
+                $(responseContainer).removeClass('hidden')
+              }
+            });
+            $label.prepend($radioBtn);
+            $(formContainer).append($label);
+          }
+        }
+
+        var continueBtn = document.createElement('button');
+        $(continueBtn).addClass('step-continue-btn')
+        .text(step.continueBtnText())
+        .on('click', function(){
+          ctrlScope.continue();
+        });
+        $(responseContainer).append($(continueBtn));
+
+        $(formContainer).append($(responseContainer));
+        $(stepId + ' .step-box').append($(formContainer));
+      } else {
+        $(stepId + ' .step-box .step-form-container').show();
+      }
+    }
+
+    function growBox(stepTitle, degrees){
       var stepId = '#item' + _store[stepTitle].id();
-
-      var continueBtn = document.createElement('button');
-      $(continueBtn).addClass('step-continue-btn');
-      $(continueBtn).text(_store[stepTitle].continueBtnText());
-      $(continueBtn).on('click', function(){
-        processBox(_store[stepTitle]);
-      });
-
-      var formContainer = document.createElement('div');
-      $(formContainer).addClass('step-form-container');
-      $(formContainer).append($(continueBtn));
-      $(stepId + ' .step-box').append($(formContainer));
-
+      createOrShowBoxForm(stepTitle, stepId);
       $(stepId)
       .velocity({ zIndex: 1000, rotateZ: -degrees }, { duration: 0 })
       .velocity({ scale: 2 }, { duration: 500 });
-    }
-
-    function hideBox(step, zIndexValue){
-      var stepId = '#item' + step.id();
-      $(stepId)
-      .velocity({ zIndex: zIndexValue }, { duration: 0 })
-      .velocity({ scale: 1 }, { duration: 500 });
-      $(stepId).remove('.step-continue-btn');
-    }
-
-    function processBox(step){
-      var nextStep;
-      if(step.responses.length <= 1) {
-        nextStep = step.responses()[0].getNextStep();
-      }
-      hideBox(step, $('#item' + nextStep.id()).css('z-index'));
-      spin(nextStep.title());
     }
 
     //---------- Public functions ----------//
@@ -84,7 +143,6 @@
       // iterate through the store
       initializeIndex();
       for(var j = (numSteps - 1); j >= 0; j -= 1) {
-      // for(var j = 0; j < numSteps; j += 1) {
         step = _index[j];
 
         // Compute top and left coordinates
@@ -135,6 +193,15 @@
       }
     }
 
+    function shrinkBox(step, nextStep){
+      var stepId = '#item' + step.id(),
+      zIndexValue = $('#item' + nextStep.id()).css('z-index');
+      $(stepId)
+      .velocity({ scale: 1 }, { duration: 500 })
+      .velocity({ zIndex: zIndexValue }, { duration: 0 });
+      $(stepId + ' .step-box .step-form-container').hide();
+    }
+
     function spin(stepTitle){
       // Set the new wheel rotation
       var radians = parseFloat(_store[stepTitle].rotation()) || Math.PI,
@@ -146,7 +213,7 @@
       }, {
         duration: 1500,
         complete: function(){
-          showBox(stepTitle, degrees);
+          growBox(stepTitle, degrees);
         }
       });
     }
@@ -168,6 +235,7 @@
     return {
       get: get,
       initializeWheel: initializeWheel,
+      shrinkBox: shrinkBox,
       spin: spin,
       setStore: setStore,
     };

@@ -22,6 +22,10 @@
     }
 
     Response.prototype = {
+      id : function(){
+        return this.get('id');
+      },
+
       title : function(){
         return this.get('title');
       },
@@ -64,6 +68,14 @@
 
       setNextStep : function(step){
         this.set('nextStep', step);
+      },
+
+      execute : function(){
+        if(this.mustBranch()) {
+          return this.getBranchStep();
+        } else {
+          return this.getNextStep();
+        }
       }
     };
 

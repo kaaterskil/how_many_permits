@@ -70,7 +70,7 @@
 
       execute : function(response){
         if(typeof response !== 'undefined') {
-          return response.getNextStep();
+          return response.execute();
         }
         return undefined;
       },
