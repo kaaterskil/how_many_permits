@@ -31,6 +31,17 @@
       return Math.floor((radians + Math.PI) * 180 / Math.PI);
     }
 
+    function getResponseTextHeight($stepBox, $responseText){
+      var boxTop = $stepBox.offset().top,
+      boxHeight = $stepBox.outerHeight(true) * 2,
+      formTop = $stepBox.find('.step-form-container').offset().top,
+      formHeight = $stepBox.find('.step-form-container').outerHeight(true) * 2,
+      btnHeight = $stepBox.find('.step-continue-btn').outerHeight(true) * 2,
+      availHeight = ((boxTop + boxHeight) - (formTop + formHeight) - btnHeight - 20) / 2,
+      neededHeight = $responseText.height() * 2;
+      return availHeight < neededHeight ? availHeight : neededHeight;
+    }
+
     function setResultText(step, $container, radioBtnTxt){
       var responses = step.responses(),
       responseText, response;
@@ -44,11 +55,17 @@
         $container.prepend($(responseText));
       }
 
+      // Set the element height
+      var $stepBox = $('#item' + step.id());
+
       // Assign the response text
       for(var j = 0; j < responses.length; j++) {
         response = responses[j];
         if(response.radioBtnText() === radioBtnTxt) {
           $(responseText).html(response.text());
+          $(responseText).height(
+            getResponseTextHeight($('#item' + step.id()), $(responseText))
+          );
         }
       }
     }
@@ -61,12 +78,14 @@
         responses = step.responses(),
         formContainer = document.createElement('div');
         $(formContainer).addClass('step-form-container');
+        $(stepId + ' .step-box').append($(formContainer));
 
         var responseContainer = document.createElement('div');
         $(responseContainer).addClass('step-response-container');
         if(responses.length > 1) {
           $(responseContainer).addClass('hidden');
         }
+        $(stepId + ' .step-box').append($(responseContainer));
 
         if(responses.length > 1) {
           var response, title, id, $label, $radioBtn;
@@ -105,9 +124,6 @@
           ctrlScope.continue();
         });
         $(responseContainer).append($(continueBtn));
-
-        $(formContainer).append($(responseContainer));
-        $(stepId + ' .step-box').append($(formContainer));
       } else {
         $(stepId + ' .step-box .step-form-container').show();
       }
@@ -200,6 +216,7 @@
       .velocity({ scale: 1 }, { duration: 500 })
       .velocity({ zIndex: zIndexValue }, { duration: 0 });
       $(stepId + ' .step-box .step-form-container').hide();
+      $(stepId + ' .step-box .step-response-container').hide();
     }
 
     function spin(stepTitle){
