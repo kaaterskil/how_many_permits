@@ -31,6 +31,12 @@
       return Math.floor((radians + Math.PI) * 180 / Math.PI);
     }
 
+    function autoCenterWheel(){
+      $('#wheel-container').css({
+        left: (window.innerWidth / 2) - 862
+      });
+    }
+
     function getResponseTextHeight($stepBox, $responseText){
       var boxTop = $stepBox.offset().top,
       boxHeight = $stepBox.outerHeight(true) * 2,
@@ -88,13 +94,15 @@
         $(stepId + ' .step-box').append($(responseContainer));
 
         if(responses.length > 1) {
-          var response, title, id, $label, $radioBtn;
+          var response, title, id, $label, $radioBtn, html;
           for(var j = 0; j < responses.length; j += 1) {
             response = responses[j];
             title = stepTitle.replace(/\s/g, '_');
             id = title + '_' + j;
 
-            $label = $('<div class="step-response-btn"><label for="' + id + '">' + response.radioBtnText() + '</label></div>');
+            html = '<div class="step-response-btn"><label for="' + id + '">';
+            html += response.radioBtnText() + '</label></div>'
+            $label = $(html);
             $radioBtn = $('<input type="radio">')
             .attr({
               id: id,
@@ -154,7 +162,8 @@
       color = getRandomColor(),
       step, key, category, stepContainer, stepBox, color, newX, newY, rotation;
 
-      $('#wheel-container').css({ 'left': (origin.x - 862) + 'px' });
+      $('#wheel-container').css({ 'left': (origin.x - 862) });
+      window.addEventListener('resize', autoCenterWheel, false);
 
       // iterate through the store
       initializeIndex();

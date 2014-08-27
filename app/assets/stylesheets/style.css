@@ -103,10 +103,10 @@ li.menu-item a:hover {
 #wheel-container {
   display: block;
   height: 1724px;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
-  position: fixed;
-  top: 400px;
+  position: relative;
+  top: 250px;
   width: 1724px;
 }
 
