@@ -44,11 +44,13 @@
 
 /*----- General Styles ---------------*/
 
-body {
+html, body {
   color: #333;
   font-family: 'merriweather', Georgia, serif;
   font-size: 100% !important;
   font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 
 button {
@@ -56,8 +58,46 @@ button {
   padding: 3px 10px;
 }
 
+ul {
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .hidden {
   display: none;
+}
+
+.navbar .container {
+  background-image: url(hubhacks-banner-sprite.gif);
+  background-repeat: repeat-x;
+  height: 115px;
+}
+
+ul.nav li {
+  float: right;
+  margin: 10px 20px 0 0;
+}
+
+li.menu-item, li.menu-item a {
+  color: #fff;
+  text-decoration: none;
+}
+
+li.menu-item a:hover {
+  text-decoration: underline;
+}
+
+#logo {
+  background-image: url(hubhacks.gif);
+  background-repeat: no-repeat;
+  float: left;
+  height: 115px;
+  width: 624px;
+}
+
+#site-title {
+  text-align: center;
 }
 
 #wheel-container {
@@ -66,7 +106,7 @@ button {
   margin: 0;
   padding: 0;
   position: fixed;
-  top: 300px;
+  top: 400px;
   width: 1724px;
 }
 
