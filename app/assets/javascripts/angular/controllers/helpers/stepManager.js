@@ -1,5 +1,5 @@
 (function(window, $){
-  var stepManager = function(Step){
+  var stepManager = function(Step, roadMap){
     var _store = {},
     _index = [];
 
@@ -193,6 +193,7 @@
         $(stepBox).append('<div class="step-text">' + step.text() + '</div>');
         $(stepBox).append()
         $(stepBox).css({'background': color});
+        step.color(color);
 
         // Create and position the box container
         stepContainer = document.createElement('div');
@@ -216,6 +217,7 @@
         radians -= radIncrement;
         textRadians += radIncrement;
       }
+      roadMap.initialize(_index);
     }
 
     function shrinkBox(step, nextStep){
@@ -235,13 +237,18 @@
 
       // Now animate it, chaining other animations to the complete property
       $('#wheel').velocity({
-        rotateZ: 1080 + degrees
+        rotateZ: (1080 + degrees)
       }, {
         duration: 1500,
         complete: function(){
           growBox(stepTitle, degrees);
         }
       });
+    }
+
+    function gratuitousSpin(step) {
+      shrinkBox(step, step);
+      spin(step.title());
     }
 
     function get(title){
@@ -260,6 +267,7 @@
 
     return {
       get: get,
+      gratuitousSpin: gratuitousSpin,
       initializeWheel: initializeWheel,
       shrinkBox: shrinkBox,
       spin: spin,

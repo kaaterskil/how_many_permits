@@ -16,11 +16,16 @@
         stepManager.shrinkBox($scope.step, nextStep);
       }
       $scope.step = nextStep;
+      $scope.stepTitle = stepTitle;
       $scope.nextStep = undefined;
       stepManager.spin(stepTitle);
     }
 
     init('Welcome');
+
+    $scope.spinWheel = function(){
+      stepManager.gratuitousSpin($scope.step);
+    }
 
     $scope.execute = function(response){
       $scope.nextStep = $scope.step.execute(response);

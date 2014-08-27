@@ -45,9 +45,16 @@
         return this.get('continue_btn_text');
       },
 
+      color : function(color){
+        if(typeof color !== 'undefined') {
+          return this.set('color', color);
+        }
+        return this.get('color');
+      },
+
       rotation : function(rotation){
         if(typeof rotation !== 'undefined') {
-          this.set('rotation', rotation)
+          return this.set('rotation', rotation)
         }
         return this.get('rotation');
       },
