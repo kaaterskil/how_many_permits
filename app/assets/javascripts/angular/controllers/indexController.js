@@ -1,5 +1,5 @@
 (function IndexControllerIIFE($){
-  var IndexController = function($scope, steps, stepManager){
+  var IndexController = function($scope, steps, stepManager, resultsHelper){
 
     function init(stepTitle){
       $scope.resultset = [];
@@ -24,7 +24,7 @@
 
     $scope.execute = function(response){
       $scope.nextStep = $scope.step.execute(response);
-      // resultsHelper.setResults($scope, response);
+      resultsHelper.addQuestion($scope.step, response);
     }
 
     $scope.continue = function(){
