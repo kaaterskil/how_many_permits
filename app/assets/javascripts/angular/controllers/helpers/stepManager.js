@@ -18,7 +18,7 @@
       return appScope.$$childHead;
     }
 
-    function randomColor(){
+    function getRandomColor(){
       var letters = '0123456789ABCDEF'.split('');
       var color = '#';
       for (var i = 0; i < 6; i++ ) {
@@ -42,11 +42,7 @@
       return availHeight < neededHeight ? availHeight : neededHeight;
     }
 
-    function setResultText(step, $container, radioBtnTxt){
-      var responses = step.responses(),
-      responseText, response;
-
-      // Select or create a new response text element
+    function getResponseTextElement($container){
       if($container.children('.step-response-text').length) {
         responseText = $container.children('.step-response-text');
       } else {
@@ -54,18 +50,22 @@
         $(responseText).addClass('step-response-text');
         $container.prepend($(responseText));
       }
+      return responseText;
+    }
 
-      // Set the element height
-      var $stepBox = $('#item' + step.id());
+    function setResponseText(step, $container, radioBtnTxt){
+      var responses = step.responses(),
+      responseText = getResponseTextElement($container)
+      $stepBox = $('#item' + step.id());
 
-      // Assign the response text
       for(var j = 0; j < responses.length; j++) {
-        response = responses[j];
+        var response = responses[j];
         if(response.radioBtnText() === radioBtnTxt) {
           $(responseText).html(response.text());
           $(responseText).height(
             getResponseTextHeight($('#item' + step.id()), $(responseText))
           );
+          break;
         }
       }
     }
@@ -108,7 +108,7 @@
             .on('click', function(event){
               if($(event.target).prop('checked') === true){
                 ctrlScope.execute(response);
-                setResultText(step, $(responseContainer), $(this).val());
+                setResponseText(step, $(responseContainer), $(this).val());
                 $(responseContainer).removeClass('hidden')
               }
             });
@@ -151,7 +151,7 @@
       numSteps = keys.length,
       radIncrement = (Math.PI * 2) / numSteps,
       origin = {x: width / 2, y: outerRadius},
-      color = randomColor(),
+      color = getRandomColor(),
       step, key, category, stepContainer, stepBox, color, newX, newY, rotation;
 
       $('#wheel-container').css({ 'left': (origin.x - 862) + 'px' });
@@ -168,7 +168,7 @@
         // Compute other attributes
         if(category !== step.category()) {
           category = step.category();
-          color = randomColor();
+          color = getRandomColor();
         }
         rotation = radiansToDegrees(textRadians);
 
