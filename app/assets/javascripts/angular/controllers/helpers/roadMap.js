@@ -152,7 +152,7 @@
 
     function shiftRoadMap(startingIndex, requiredWidth){
       var len = _roadMap.length;
-      for(var i = len - 1; i > startingIndex; i -= 1) {
+      for(var i = (len - 1); i > startingIndex; i -= 1) {
         var step = _roadMap[i],
         currentLeft = $('#roadMap' + step.id()).position().left,
         newLeft = currentLeft + requiredWidth;
@@ -246,6 +246,8 @@
       insertBranch: insertBranch
     }
   }
+
+  roadMap.$inject = ['ISDApp.resultsHelper'];
 
   var module = angular.module('ISDApp.roadMap');
   module.service('roadMap', roadMap);

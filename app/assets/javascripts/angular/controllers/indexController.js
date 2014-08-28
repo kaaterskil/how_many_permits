@@ -50,6 +50,8 @@
     }
   };
 
+  IndexController.$inject = ['$scope', 'steps', 'stepManager', 'resultsHelper'];
+
   var app = angular.module('ISDApp.controllers');
   app.controller('indexController', IndexController);
 })(jQuery);

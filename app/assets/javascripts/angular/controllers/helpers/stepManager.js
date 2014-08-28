@@ -71,7 +71,7 @@
           $(responseText).html(response.text());
           $(responseText).height(
             getResponseTextHeight($('#item' + step.id()), $(responseText))
-          );
+            );
           break;
         }
       }
@@ -291,6 +291,8 @@
       setStore: setStore,
     };
   };
+
+  stepManager.$inject = ['ISDApp.step', 'ISDApp.roadMap'];
 
   var module = angular.module('ISDApp.controllers');
   module.service('stepManager', stepManager);

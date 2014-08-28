@@ -44,10 +44,10 @@
             results[permit] = [];
           }
           var result = [
-            'Question ' + i + ': ' + question.step.text(),
-            'Response: ' + question.response.radioBtnText(),
-            'Checklist: ' + question.response.resultText(),
-            'Resources: ' + question.response.resultResource()
+          'Question ' + i + ': ' + question.step.text(),
+          'Response: ' + question.response.radioBtnText(),
+          'Checklist: ' + question.response.resultText(),
+          'Resources: ' + question.response.resultResource()
           ];
           results[permit].push(result);
         });

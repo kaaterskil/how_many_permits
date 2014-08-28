@@ -117,6 +117,8 @@
     return Response;
   }
 
+  response.$inject = ['ISDApp.step']
+
   var module = angular.module('ISDApp.response');
   module.factory('Response', response);
 })();
