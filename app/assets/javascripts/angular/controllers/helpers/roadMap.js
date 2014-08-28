@@ -1,7 +1,8 @@
 (function($){
   var roadMap = function(resultsHelper){
     var _store = []
-    _roadMap = [];
+    _roadMap = [],
+    _gutterWidth = 0;
 
     //---------- Private functions ----------//
 
@@ -30,6 +31,17 @@
       }
     }
 
+    function getBranch(beginningStep){
+      var branch = [],
+      step = beginningStep;
+      while(typeof step !== 'undefined'){
+        branch.push(step);
+        var responses = step.responses();
+        step = responses[0].getNextStep();
+      }
+      return branch;
+    }
+
     function getStep(id){
       var len = _roadMap.length;
       for(var i = 0; i < len; i += 1) {
@@ -40,9 +52,9 @@
       return undefined;
     }
 
-    function computeGutter(width) {
+    function computeGutterWidth(containerWidth) {
       var numBoxes = _store.length;
-      return (width - (numBoxes * 20)) / (numBoxes + 1);
+      _gutterWidth = (containerWidth - (numBoxes * 20)) / (numBoxes + 1);
     }
 
     function createStepBox(step, left) {
@@ -51,7 +63,10 @@
       $(stepBox).attr({
         id: 'roadMap' + step.id()
       })
-      .data('id', step.id())
+      .data({
+        id: step.id(),
+        zIndex: $(stepBox).css('z-index')
+      })
       .css({
         backgroundColor: step.color(),
         left: left
@@ -95,17 +110,49 @@
       }
     }
 
+    function shiftRoadMap(startingIndex, requiredWidth){
+      var len = _roadMap.length;
+      for(var i = len - 1, i > startingIndex; i -= 1) {
+        var step = _roadMap[i],
+        currentLeft = $('#roadMap' + step.id()).position().left,
+        newLeft = currentLeft + requiredWidth;
+        $('#roadMap' + step.id()).velocity({
+          left: newLeft
+        }, {
+          duration: 500
+        });
+      }
+    }
+
+    function doInsertBranch(leftStep, rightStep, branch){
+      var bumpedPosition = $('#roadMap' + rightStep.id()).position(),
+      startLeft = bumpedPosition.left - _gutterWidth - 20,
+      endLeft = $('#roadMap' + leftStep.id()).position().left + _gutterWidth + 20
+      len = branch.length;
+      for(var i = 0, i < len; i += 1){
+        var stepBox = createStepBox(branch[i], startLeft);
+        $('#road-map').append($(stepBox));
+
+        var description = createStepBoxDescription(branch[i], endLeft);
+        $('#road-map').append($(description));
+
+        $(stepBox).velocity({ left: endLeft }, { duration: 300 });
+        left += 20 + _gutterWidth;
+      }
+    }
+
     //---------- Public functions ----------//
 
     function initialize(index, store, stepTitle){
-      setStore(index, store, stepTitle);
-
       var mapWidth = $('#road-map').innerWidth(),
-      mapTop = $('#road-map').position().top,
-      numSteps = _roadMap.length,
-      gutterWidth = computeGutter(mapWidth),
-      left = gutterWidth < 0 ? 0 : gutterWidth,
-      startLeft = mapWidth - left - 20;
+      mapTop = $('#road-map').position().top;
+
+      setStore(index, store, stepTitle);
+      computeGutterWidth(mapWidth);
+
+      var left = gutterWidth < 0 ? 0 : gutterWidth,
+      startLeft = mapWidth - left - 20,
+      numSteps = _roadMap.length;
 
       for(var i = 0; i < numSteps; i += 1) {
         var stepBox = createStepBox(_roadMap[i], startLeft);
@@ -114,24 +161,49 @@
         var description = createStepBoxDescription(_roadMap[i], left);
         $('#road-map').append($(description));
 
-        $(stepBox).velocity({ left: left }, { duration: 500 });
+        $(stepBox).velocity({ left: left }, { duration: 750 });
+        left += 20 + _gutterWidth;
+      }
+    }
 
-        left += 20 + gutterWidth;
+    function insertBranch(currentStep, response){
+      if(!response.mustBranch()) {
+        return;
+      }
+      var index = _roadMap.indexOf(currentStep),
+      nextStep = response.getBranchStep();
+      if(_roadMap.indexOf(nextStep) < 0) {
+        var branch = getBranch(nextStep),
+        numSteps = branch.length,
+        requiredWidth = numSteps * (20 + _gutterWidth),
+        bumpedStep = _roadMap[index + 1];
+
+        shiftRoadMap(index, requiredWidth);
+        doInsertBranch(currentStep, bumpedStep, branch);
       }
     }
 
     function highlightStepBox(step) {
-      $('.road-map-box').css('border', 'none');
-      $('#roadMap' + step.id()).css({
+      $('.road-map-box').each(function(i){
+        $(this).css({
+          'border': 'none',
+          'z-index': $(this).data('zIndex')
+        });
+      });
+
+      $('#roadMap' + step.id())
+      .css({
         'border-color': "#000000",
         'border-weight': '1px',
-        'border-style': 'solid'
+        'border-style': 'solid',
+        'z-index': 1000
       });
     }
 
     return {
       highlightStepBox: highlightStepBox,
-      initialize: initialize
+      initialize: initialize,
+      insertBranch: insertBranch
     }
   }
 

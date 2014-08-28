@@ -276,7 +276,12 @@
       }
     }
 
+    function branchRoadMap(step, response){
+      roadMap.insertBranch(step, response);
+    }
+
     return {
+      branchRoadMap: branchRoadMap,
       get: get,
       gratuitousSpin: gratuitousSpin,
       highlightRoadMapStep: highlightRoadMapStep,

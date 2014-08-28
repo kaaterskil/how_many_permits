@@ -1,4 +1,4 @@
-(function IndexControllerIIFE($){
+(function($){
   var IndexController = function($scope, steps, stepManager, resultsHelper){
 
     function init(stepTitle){
@@ -33,6 +33,9 @@
     }
 
     $scope.execute = function(response){
+      if(response.mustBranch()) {
+        stepManager.branchRoadMap($scope.step, response);
+      }
       $scope.nextStep = $scope.step.execute(response);
       resultsHelper.addQuestion($scope.step, response);
     }
