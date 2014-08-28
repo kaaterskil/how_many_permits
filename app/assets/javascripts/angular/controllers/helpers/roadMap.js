@@ -126,10 +126,9 @@
       startLeft =
       len = _roadMap.length;
       for(var i = (index + 1); i < len; i += 1){
-        // Remove existing step boxes since there could be unneede branches
-        $stepBox = $('#roadMap' + _roadMap[i].id());
-        $description = $('#roadMapDescription' + _roadMap[i].id());
-        $('road-map').remove($stepBox).remove($description);
+        // Remove existing step boxes as there could be unneeded branches
+        $('#roadMap' + _roadMap[i].id()).remove();
+        $('#roadMapDescription' + _roadMap[i].id()).remove();
 
         // Regenerate
         _roadMap = getBranch(step, _roadMap.slice(0, index));
@@ -164,20 +163,20 @@
       }
     }
 
-    function doInsertBranch(leftStep, rightStep, branch){
-      var bumpedPosition = $('#roadMap' + rightStep.id()).position(),
-      startLeft = bumpedPosition.left - _gutterWidth - 20,
-      endLeft = $('#roadMap' + leftStep.id()).position().left + _gutterWidth + 20
+    function doInsertBranch(leftStep, rightStep, branch, requiredWidth){
+      var leftStepPosition = $('#roadMap' + leftStep.id()).position(),
+      startLeft = leftStepPosition.left + requiredWidth,
+      left = leftStepPosition.left + 20,
       len = branch.length;
       for(var i = 0; i < len; i += 1){
         var stepBox = createStepBox(branch[i], startLeft);
         $('#road-map').append($(stepBox));
 
-        var description = createStepBoxDescription(branch[i], endLeft);
+        var description = createStepBoxDescription(branch[i], left);
         $('#road-map').append($(description));
 
-        $(stepBox).velocity({ left: endLeft }, { duration: 300 });
-        startLeft += 20 + _gutterWidth;
+        $(stepBox).velocity({ left: left }, { duration: 300 });
+        left += 20 + _gutterWidth;
       }
     }
 
@@ -219,14 +218,17 @@
         bumpedStep = _roadMap[index + 1];
 
         shiftRoadMap(index, requiredWidth);
-        doInsertBranch(currentStep, bumpedStep, branch);
+        doInsertBranch(currentStep, bumpedStep, branch, requiredWidth);
       }
     }
 
     function highlightStepBox(step) {
       $('.road-map-box').each(function(i){
         $(this).css({
-          'border': 'none',
+          'border-top': '1px solid #fff',
+          'border-right': 'none',
+          'border-bottom': 'none',
+          'border-left': 'none',
           'z-index': $(this).data('zIndex')
         });
       });
@@ -247,7 +249,7 @@
     }
   }
 
-  roadMap.$inject = ['ISDApp.resultsHelper'];
+  roadMap.$inject = ['resultsHelper'];
 
   var module = angular.module('ISDApp.roadMap');
   module.service('roadMap', roadMap);

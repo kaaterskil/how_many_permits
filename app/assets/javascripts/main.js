@@ -38,6 +38,4 @@
       }
     });
   });
-
-  app.$inject = ['ngRoute', 'ISDApp.step', 'ISDApp.response', 'ISDApp.dataServices', 'ISDApp.controllers']
 })();

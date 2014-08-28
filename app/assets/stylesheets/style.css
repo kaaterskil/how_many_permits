@@ -132,12 +132,13 @@ li.menu-item a:hover {
 }
 
 .road-map-box {
+  border-top: 1px solid #fff;
   cursor: pointer;
   height: 20px;
   margin: 0;
   padding: 0;
   position: absolute;
-  top: -10px;
+  top: -11px;
   width: 20px;
 }
 

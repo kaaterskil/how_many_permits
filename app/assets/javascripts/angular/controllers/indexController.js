@@ -46,6 +46,10 @@
         $scope.nextStep = $scope.step.execute(responses[0]);
         stepManager.shrinkBox($scope.step, $scope.nextStep);
       }
+      if($scope.nextStep === undefined) {
+        alert('Please select a response');
+        return;
+      }
       reset($scope.nextStep.title(), true);
     }
   };

@@ -292,7 +292,7 @@
     };
   };
 
-  stepManager.$inject = ['ISDApp.step', 'ISDApp.roadMap'];
+  stepManager.$inject = ['Step', 'roadMap'];
 
   var module = angular.module('ISDApp.controllers');
   module.service('stepManager', stepManager);

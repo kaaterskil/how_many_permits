@@ -55,19 +55,19 @@
       },
 
       getBranchStep : function(){
-        return this.get('branchStep');
+        return this.get('branch_step');
       },
 
       setBranchStep : function(step){
-        this.set('branchStep', step);
+        this.set('branch_step', step);
       },
 
       getNextStep : function(){
-        return this.get('nextStep');
+        return this.get('next_step');
       },
 
       setNextStep : function(step){
-        this.set('nextStep', step);
+        this.set('next_step', step);
       },
 
       execute : function(){
@@ -116,8 +116,6 @@
 
     return Response;
   }
-
-  response.$inject = ['ISDApp.step']
 
   var module = angular.module('ISDApp.response');
   module.factory('Response', response);
