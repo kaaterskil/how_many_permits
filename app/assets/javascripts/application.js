@@ -14,7 +14,8 @@
 //= require jquery_ujs
 //= require jquery.velocity
 
-//= require angular
+//= require angular-mocks
+//= require angular-route
 //= require main
 
 //= require_tree .
