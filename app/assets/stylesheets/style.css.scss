@@ -1,43 +1,43 @@
 @font-face {
     font-family: 'merriweather';
-    src: url('fonts/merriweather-regular-webfont.eot');
-    src: url('fonts/merriweather-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fonts/merriweather-regular-webfont.woff') format('woff'),
-         url('fonts/merriweather-regular-webfont.ttf') format('truetype'),
-         url('fonts/merriweather-regular-webfont.svg#merriweatherregular') format('svg');
+    src: font-url('merriweather-regular-webfont.eot');
+    src: font-url('merriweather-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         font-url('merriweather-regular-webfont.woff') format('woff'),
+         font-url('merriweather-regular-webfont.ttf') format('truetype'),
+         font-url('merriweather-regular-webfont.svg#merriweatherregular') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'proximanova';
-    src: url('fonts/proximanova-regular-webfont.eot');
-    src: url('fonts/proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fonts/proximanova-regular-webfont.woff') format('woff'),
-         url('fonts/proximanova-regular-webfont.ttf') format('truetype'),
-         url('fonts/proximanova-regular-webfont.svg#proximanovabold') format('svg');
+    src: font-url('proximanova-regular-webfont.eot');
+    src: font-url('proximanova-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         font-url('proximanova-regular-webfont.woff') format('woff'),
+         font-url('proximanova-regular-webfont.ttf') format('truetype'),
+         font-url('proximanova-regular-webfont.svg#proximanovabold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'proximanova';
-    src: url('fonts/proximanova-bold-webfont.eot');
-    src: url('fonts/proximanova-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('fonts/proximanova-bold-webfont.woff') format('woff'),
-         url('fonts/proximanova-bold-webfont.ttf') format('truetype'),
-         url('fonts/proximanova-bold-webfont.svg#proximanovabold') format('svg');
+    src: font-url('proximanova-bold-webfont.eot');
+    src: font-url('proximanova-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         font-url('proximanova-bold-webfont.woff') format('woff'),
+         font-url('proximanova-bold-webfont.ttf') format('truetype'),
+         font-url('proximanova-bold-webfont.svg#proximanovabold') format('svg');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'orator';
-    src: url('fonts/OratorStd_0.eot');
-    src: url('fonts/OratorStd_0.eot?#iefix') format('embedded-opentype'),
-         url('fonts/OratorStd_0.woff') format('woff'),
-         url('fonts/OratorStd_0.ttf') format('truetype'),
-         url('fonts/OratorStd_0.svg#OratorStd_0') format('svg');
+    src: font-url('OratorStd_0.eot');
+    src: font-url('OratorStd_0.eot?#iefix') format('embedded-opentype'),
+         font-url('OratorStd_0.woff') format('woff'),
+         font-url('OratorStd_0.ttf') format('truetype'),
+         font-url('OratorStd_0.svg#OratorStd_0') format('svg');
     font-weight: bold;
     font-style: normal;
 }
@@ -69,7 +69,7 @@ ul {
 }
 
 .navbar .container {
-  background-image: url(hubhacks-banner-sprite.gif);
+  background-image: image-url('hubhacks-banner-sprite.gif');
   background-repeat: repeat-x;
   height: 115px;
 }
@@ -89,7 +89,7 @@ li.menu-item a:hover {
 }
 
 #logo {
-  background-image: url(hubhacks.gif);
+  background-image: image-url('hubhacks.gif');
   background-repeat: no-repeat;
   float: left;
   height: 115px;

@@ -1,4 +1,4 @@
-(function(window, $){
+(function(){
   var stepManager = function(Step, roadMap){
     var _store = {},
     _index = [],
@@ -296,4 +296,4 @@
 
   var module = angular.module('ISDApp.controllers');
   module.service('stepManager', stepManager);
-})(window, jQuery);
+})();

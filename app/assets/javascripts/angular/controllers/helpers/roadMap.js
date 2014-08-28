@@ -1,4 +1,4 @@
-(function($){
+(function(){
   var roadMap = function(resultsHelper){
     var _store = []
     _roadMap = [],
@@ -253,4 +253,4 @@
 
   var module = angular.module('ISDApp.roadMap');
   module.service('roadMap', roadMap);
-})(jQuery);
+})();

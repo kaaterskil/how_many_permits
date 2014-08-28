@@ -24,6 +24,8 @@
     };
   };
 
+  dataService.$inject = ['$q', '$http']
+
   var module = angular.module('ISDApp.dataServices');
   module.service('DataService', dataService);
 })();
