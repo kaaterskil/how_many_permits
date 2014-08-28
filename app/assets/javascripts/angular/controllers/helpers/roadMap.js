@@ -31,8 +31,8 @@
       }
     }
 
-    function getBranch(beginningStep){
-      var branch = [],
+    function getBranch(beginningStep, branch){
+      var branch = branch || [],
       step = beginningStep;
       while(typeof step !== 'undefined'){
         branch.push(step);
@@ -100,19 +100,59 @@
       return description;
     }
 
+    function reinitializeAt(step) {
+      var mapWidth = $('#road-map').innerWidth(),
+      mapTop = $('#road-map').position().top,
+      left = $('#roadMap' + step.id()).position().left + _gutterWidth + 20,
+      startLeft = mapWidth - (_gutterWidth < 0 ? 0 : _gutterWidth) - 20,
+      index = _roadMap.indexOf(step) + 1,
+      numSteps = _roadMap.length;
+
+      for(var i = index; i < numSteps; i += 1) {
+        var stepBox = createStepBox(_roadMap[i], startLeft);
+        $('#road-map').append($(stepBox));
+
+        var description = createStepBoxDescription(_roadMap[i], left);
+        $('#road-map').append($(description));
+
+        $(stepBox).velocity({ left: left }, { duration: 750 });
+        left += 20 + _gutterWidth;
+      }
+    }
+
+    function doRewind(step){
+      var index = _roadMap.indexOf(step)
+      left = $('#roadMap' + step.id()).position().left + _gutterWidth + 20,
+      startLeft =
+      len = _roadMap.length;
+      for(var i = (index + 1); i < len; i += 1){
+        // Remove existing step boxes since there could be unneede branches
+        $stepBox = $('#roadMap' + _roadMap[i].id());
+        $description = $('#roadMapDescription' + _roadMap[i].id());
+        $('road-map').remove($stepBox).remove($description);
+
+        // Regenerate
+        _roadMap = getBranch(step, _roadMap.slice(0, index));
+        reinitializeAt(step);
+      }
+    }
+
     function rewind(id){
       if(!resultsHelper.hasQuestion(id)) {
         alert("Sorry but you can't skip ahead");
-      } else if(confirm("Would you like to rewind back to this question?")){
+        return;
+      }
+      if(confirm("Would you like to rewind back to this question?")){
         var step = getStep(id);
         resultsHelper.rewindTo(step);
+        doRewind(step);
         getScope().reset(step.title(), true);
       }
     }
 
     function shiftRoadMap(startingIndex, requiredWidth){
       var len = _roadMap.length;
-      for(var i = len - 1, i > startingIndex; i -= 1) {
+      for(var i = len - 1; i > startingIndex; i -= 1) {
         var step = _roadMap[i],
         currentLeft = $('#roadMap' + step.id()).position().left,
         newLeft = currentLeft + requiredWidth;
@@ -129,7 +169,7 @@
       startLeft = bumpedPosition.left - _gutterWidth - 20,
       endLeft = $('#roadMap' + leftStep.id()).position().left + _gutterWidth + 20
       len = branch.length;
-      for(var i = 0, i < len; i += 1){
+      for(var i = 0; i < len; i += 1){
         var stepBox = createStepBox(branch[i], startLeft);
         $('#road-map').append($(stepBox));
 
@@ -137,7 +177,7 @@
         $('#road-map').append($(description));
 
         $(stepBox).velocity({ left: endLeft }, { duration: 300 });
-        left += 20 + _gutterWidth;
+        startLeft += 20 + _gutterWidth;
       }
     }
 
@@ -150,7 +190,7 @@
       setStore(index, store, stepTitle);
       computeGutterWidth(mapWidth);
 
-      var left = gutterWidth < 0 ? 0 : gutterWidth,
+      var left = _gutterWidth < 0 ? 0 : _gutterWidth,
       startLeft = mapWidth - left - 20,
       numSteps = _roadMap.length;
 

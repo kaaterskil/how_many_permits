@@ -137,7 +137,7 @@
         $(responseContainer).append($(continueBtn));
 
       } else {
-        // Show the existing DOM elements
+        $(stepId + ' input').prop('checked', false);
         $(stepId + ' .step-box .step-form-container').show();
         $(stepId + ' .step-box .step-response-container').show();
       }
