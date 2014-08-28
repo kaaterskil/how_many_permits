@@ -24,6 +24,10 @@
 
     init('Welcome');
 
+    $scope.reset = function(stepTitle, shrink){
+      reset(stepTitle, shrink);
+    }
+
     $scope.spinWheel = function(){
       stepManager.gratuitousSpin($scope.step);
     }

@@ -67,7 +67,7 @@
         });
       })
       .on('click', function(event){
-        checkRewind(parseInt($(this).data('id')));
+        rewind(parseInt($(this).data('id')));
       });
       return stepBox;
     }
@@ -85,13 +85,13 @@
       return description;
     }
 
-    function checkRewind(id){
+    function rewind(id){
       if(!resultsHelper.hasQuestion(id)) {
         alert("Sorry but you can't skip ahead");
       } else if(confirm("Would you like to rewind back to this question?")){
         var step = getStep(id);
         resultsHelper.rewindTo(step);
-        angular.module('ISDApp.controllers').controller('indexController').reset(step.title(), true);
+        getScope().reset(step.title(), true);
       }
     }
 

@@ -1,7 +1,8 @@
 (function(window, $){
   var stepManager = function(Step, roadMap){
     var _store = {},
-    _index = [];
+    _index = [],
+    _scale = 1.75;
 
     //---------- Private functions ----------//
 
@@ -39,12 +40,12 @@
 
     function getResponseTextHeight($stepBox, $responseText){
       var boxTop = $stepBox.offset().top,
-      boxHeight = $stepBox.outerHeight(true) * 2,
+      boxHeight = $stepBox.outerHeight(true) * _scale,
       formTop = $stepBox.find('.step-form-container').offset().top,
-      formHeight = $stepBox.find('.step-form-container').outerHeight(true) * 2,
-      btnHeight = $stepBox.find('.step-continue-btn').outerHeight(true) * 2,
-      availHeight = ((boxTop + boxHeight) - (formTop + formHeight) - btnHeight - 20) / 2,
-      neededHeight = $responseText.height() * 2;
+      formHeight = $stepBox.find('.step-form-container').outerHeight(true) * _scale,
+      btnHeight = $stepBox.find('.step-continue-btn').outerHeight(true) * _scale,
+      availHeight = ((boxTop + boxHeight) - (formTop + formHeight) - btnHeight - 20) / _scale,
+      neededHeight = $responseText.height() * _scale;
       return availHeight < neededHeight ? availHeight : neededHeight;
     }
 
@@ -86,6 +87,7 @@
         $(formContainer).addClass('step-form-container');
         $(stepId + ' .step-box').append($(formContainer));
 
+        // Create a container for the possible responses
         var responseContainer = document.createElement('div');
         $(responseContainer).addClass('step-response-container');
         if(responses.length > 1) {
@@ -93,6 +95,7 @@
         }
         $(stepId + ' .step-box').append($(responseContainer));
 
+        // Now build radio button elements for each response
         if(responses.length > 1) {
           var response, title, id, $label, $radioBtn, html;
           for(var j = 0; j < responses.length; j += 1) {
@@ -132,8 +135,11 @@
           ctrlScope.continue();
         });
         $(responseContainer).append($(continueBtn));
+
       } else {
+        // Show the existing DOM elements
         $(stepId + ' .step-box .step-form-container').show();
+        $(stepId + ' .step-box .step-response-container').show();
       }
     }
 
@@ -142,7 +148,7 @@
       createOrShowBoxForm(stepTitle, stepId);
       $(stepId)
       .velocity({ zIndex: 1000, rotateZ: -degrees }, { duration: 0 })
-      .velocity({ scale: 2 }, { duration: 500 });
+      .velocity({ scale: _scale }, { duration: 500 });
     }
 
     //---------- Public functions ----------//
