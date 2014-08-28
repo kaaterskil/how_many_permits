@@ -3,7 +3,7 @@
   angular.module('ISDApp.response', ['ISDApp.step']);
   angular.module('ISDApp.dataServices', []);
   angular.module('ISDApp.resultsHelper', []);
-  angular.module('ISDApp.roadMap', []);
+  angular.module('ISDApp.roadMap', ['ISDApp.resultsHelper']);
   angular.module('ISDApp.stepManager', ['ISDApp.step', 'ISDApp.roadMap']);
   angular.module('ISDApp.controllers', ['ISDApp.stepManager', 'ISDApp.resultsHelper']);
 

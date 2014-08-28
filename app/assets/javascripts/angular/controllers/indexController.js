@@ -4,7 +4,7 @@
     function init(stepTitle){
       $scope.resultset = [];
       stepManager.setStore(steps);
-      stepManager.initializeWheel();
+      stepManager.initializeWheel(stepTitle);
       reset(stepTitle);
     }
 
@@ -19,6 +19,7 @@
       $scope.stepTitle = stepTitle;
       $scope.nextStep = undefined;
       stepManager.spin(stepTitle);
+      stepManager.highlightRoadMapStep(stepTitle);
     }
 
     init('Welcome');

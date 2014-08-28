@@ -147,7 +147,7 @@
 
     //---------- Public functions ----------//
 
-    function initializeWheel(){
+    function initializeWheel(stepTitle){
       var $this = $(window),
       width = $this.width(),
       height = $this.height(),
@@ -217,7 +217,7 @@
         radians -= radIncrement;
         textRadians += radIncrement;
       }
-      roadMap.initialize(_index);
+      roadMap.initialize(_index, _store, stepTitle);
     }
 
     function shrinkBox(step, nextStep){
@@ -246,6 +246,11 @@
       });
     }
 
+    function highlightRoadMapStep(stepTitle){
+      var step = _store[stepTitle];
+      roadMap.highlightStepBox(step);
+    }
+
     function gratuitousSpin(step) {
       shrinkBox(step, step);
       spin(step.title());
@@ -268,6 +273,7 @@
     return {
       get: get,
       gratuitousSpin: gratuitousSpin,
+      highlightRoadMapStep: highlightRoadMapStep,
       initializeWheel: initializeWheel,
       shrinkBox: shrinkBox,
       spin: spin,

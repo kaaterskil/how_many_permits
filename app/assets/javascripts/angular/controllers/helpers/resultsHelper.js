@@ -55,10 +55,21 @@
       return results;
     }
 
+    function hasQuestion(stepId){
+      var len = _questions.length;
+      for(var i = 0; i < len; i += 1) {
+        if(stepId === _questions[i].step.id()) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     return {
       addQuestion: addQuestion,
       getQuestionnaire: getQuestionnaire,
       getResults: getResults,
+      hasQuestion: hasQuestion,
       rewindTo: rewindTo
     }
   }
