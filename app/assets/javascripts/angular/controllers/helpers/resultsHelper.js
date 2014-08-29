@@ -40,16 +40,19 @@
         permits = question.response.requiredPermits();
 
         permits.map(function(permit){
-          if(typeof results[permit] === 'undefined'){
-            results[permit] = [];
+          if(permit === '') {
+            permit = 'No Action Required';
           }
-          var result = [
-          'Question ' + i + ': ' + question.step.text(),
-          'Response: ' + question.response.radioBtnText(),
-          'Checklist: ' + question.response.resultText(),
-          'Resources: ' + question.response.resultResource()
-          ];
-          results[permit].push(result);
+          if(typeof results[permit] === 'undefined'){
+            results[permit] = { permit: permit, items: [] };
+          }
+          var result = {
+            question: 'Question ' + (i + 1) + ': ' + question.step.text(),
+            response: 'Response: ' + question.response.radioBtnText(),
+            checklist: 'Checklist: ' + question.response.resultText(),
+            resources: 'Resources: ' + question.response.resultResource()
+          };
+          results[permit].items.push(result);
         });
       }
       return results;
@@ -65,12 +68,30 @@
       return false;
     }
 
+    function toString(){
+      var str = '',
+      results = getResults();
+      for(permit in results) {
+        str += '<div class="results-permit-container">\n'
+        str += '\t<div class="results-permit">' + permit.toUpperCase() + '</div>\n';
+        results[permit].forEach(function(result){
+          str += '\t<div class="results-question">\n';
+          result.forEach(function(item){
+            str += '\t\t<p class="results-item">' + item + '</p>\n';
+          });
+          str += '\t</div>\n</div>\n';
+        });
+      }
+      return str;
+    }
+
     return {
       addQuestion: addQuestion,
       getQuestionnaire: getQuestionnaire,
       getResults: getResults,
       hasQuestion: hasQuestion,
-      rewindTo: rewindTo
+      rewindTo: rewindTo,
+      toString: toString
     }
   }
 

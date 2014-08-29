@@ -1,5 +1,19 @@
 (function($){
   var IndexController = function($scope, steps, stepManager, resultsHelper){
+    function leadingZeros(raw){
+      return raw < 10 ? '0' + raw : raw;
+    }
+
+    function today(){
+      var today = new Date(),
+      d = leadingZeros(today.getDate()),
+      m = leadingZeros(today.getMonth() + 1),
+      y = today.getFullYear(),
+      h = leadingZeros(today.getHours()),
+      i = leadingZeros(today.getMinutes()),
+      s = leadingZeros(today.getSeconds());
+      return m + '/' + d + '/' + y + ' ' + h + ':' + i + ':' + s;
+    }
 
     function init(stepTitle){
       $scope.resultset = [];
@@ -21,8 +35,6 @@
       stepManager.spin(stepTitle);
       stepManager.highlightRoadMapStep(stepTitle);
     }
-
-    init('Welcome');
 
     $scope.reset = function(stepTitle, shrink){
       reset(stepTitle, shrink);
@@ -63,6 +75,18 @@
       }
       reset($scope.nextStep.title(), true);
     }
+
+    $scope.toggleModal = function(){
+      $scope.modalShown = !$scope.modalShown;
+      if($scope.modalShown) {
+        $scope.results = resultsHelper.getResults();
+      }
+    }
+
+    // $scope.results = resultsHelper.getResults();
+    $scope.today = today();
+    $scope.modalShown = false;
+    init('Welcome');
   };
 
   IndexController.$inject = ['$scope', 'steps', 'stepManager', 'resultsHelper'];

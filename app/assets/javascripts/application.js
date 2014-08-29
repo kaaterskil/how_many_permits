@@ -16,6 +16,7 @@
 
 //= require angular-mocks
 //= require angular-route
+//= require ng-modal
 //= require main
 
 //= require_tree .

@@ -1,0 +1,23 @@
+<div>
+  <h3 class="results-header">Boston Business Hub Beta</h3>
+  <h1 class="results-title">Inspectional Services Department</h1>
+  <h3 class="results-header">Results for "How Many Permits Do I Need?"</h3>
+  <div class="results-meta">how-many-permits.herokuapp.com</div>
+  <div class="results-meta">Printed at {{ today }}</div>
+</div>
+<div class="results-content-container">
+  <div class="results-content-title">Results</div>
+  <ol class="results-content">
+    <li class="results-permit" ng-repeat="result in results">
+      <p>{{ result.permit | uppercase }}</p>
+      <ul>
+        <li class="results-item" ng-repeat="item in result.items">
+          <p>{{ item.question }}</p>
+          <p>{{ item.response }}</p>
+          <p>{{ item.checklist }}</p>
+          <p>{{ item.resources }}</p>
+        </li>
+      </ul>
+    </li>
+  </ol>
+</div>

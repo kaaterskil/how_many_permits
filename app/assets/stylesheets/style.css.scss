@@ -102,31 +102,50 @@ li.menu-item a:hover {
 
 .title-container {
   padding: 0 20px;
+  position: relative;
+  text-align: center;
 }
 
 #site-title {
-  text-align: center;
+  width: 100%;
+}
+
+.road-map-label {
+  float: right;
+  font-style: italic;
+  margin-top: 3px;
+}
+
+#print-me {
+  background: #fff;
+  border: 1px solid #666;
+  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  float: right;
+  margin-right: 5px;
+  padding: 5px 10px;
+  position: absolute;
+  right: 20px;
+  top: 0;
+}
+
+#print-me:hover {
+  border: none;
+  background: rgb(244, 3, 15);
+  color: #fff;
 }
 
 #spin-me {
   background-image: image-url('general-assembly.gif');
   background-repeat: no-repeat;
   cursor: pointer;
-  float: right;
   height: 75px;
   position: absolute;
-  top: -120px;
+  right: 40px;
+  top: 240px;
   width: 75px;
   z-index: 100;
-}
-
-#spin-me.span {
-  display: block;
-  color: #fff;
-  font-size: 9px;
-  font-weight: bold;
-  margin-top: 25px;
-  text-decoration: none;
 }
 
 #road-map {

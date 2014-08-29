@@ -8,10 +8,10 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+
   <header>
     <%= render 'layouts/navigation' %>
   </header>
-
   <div ng-view>
     <%= render 'layouts/messages' %>
     <%= yield %>

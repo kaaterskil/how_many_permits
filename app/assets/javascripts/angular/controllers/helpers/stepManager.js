@@ -36,6 +36,7 @@
       $('#wheel-container').css({
         left: (window.innerWidth / 2) - 862
       });
+      $('#road-map').width(window.innerWidth - 30);
     }
 
     function getResponse(step, radioBtnText){
@@ -181,7 +182,9 @@
 
       $('#wheel-container').css({ 'left': (origin.x - 862) });
       window.addEventListener('resize', autoCenterWheel, false);
-      $('#spin-me').css({ left: (origin.x + 417) });
+      // $('#spin-me').css({
+      //   right: (width / 2) > 862 ? -20 : 882 - (width / 2)
+      // });
 
       for(var j = (numSteps - 1); j >= 0; j -= 1) {
         step = _index[j];
@@ -257,7 +260,7 @@
       }, {
         duration: 500,
         complete: function(){
-          spin(step.title());
+          spin(step.title(), true);
         }
       });
     }
@@ -294,12 +297,13 @@
       $(stepId + ' .step-box .step-response-container').hide();
     }
 
-    function spin(stepTitle){
+    function spin(stepTitle, gratuitous){
       var radians = parseFloat(_store[stepTitle].rotation()) || Math.PI,
-      degrees = radiansToDegrees(radians);
+      degrees = radiansToDegrees(radians)
+      gratuitous = gratuitous || false;
 
       $('#wheel').velocity({
-        rotateZ: [(1080 + degrees), degrees]
+        rotateZ: gratuitous ? [(1080 + degrees), degrees] : (1080 + degrees)
       }, {
         duration: 1500,
         complete: function(){

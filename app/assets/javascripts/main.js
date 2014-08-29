@@ -12,7 +12,8 @@
     'ISDApp.step',
     'ISDApp.response',
     'ISDApp.dataServices',
-    'ISDApp.controllers'
+    'ISDApp.controllers',
+    'ngModal'
   ]);
 
   app.config(function($routeProvider){
@@ -36,6 +37,7 @@
           });
         }
       }
-    });
+    })
   });
+
 })();
