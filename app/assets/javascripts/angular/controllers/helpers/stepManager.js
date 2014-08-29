@@ -181,6 +181,7 @@
 
       $('#wheel-container').css({ 'left': (origin.x - 862) });
       window.addEventListener('resize', autoCenterWheel, false);
+      $('#spin-me').css({ left: (origin.x + 417) });
 
       for(var j = (numSteps - 1); j >= 0; j -= 1) {
         step = _index[j];
@@ -239,11 +240,6 @@
       roadMap.insertBranch(step, response);
     }
 
-    function gratuitousSpin(step) {
-      shrinkBox(step, step);
-      spin(step.title());
-    }
-
     function get(title){
       if(typeof title === 'undefined') {
         return _store;
@@ -253,6 +249,17 @@
 
     function getBumpedStep(){
       return roadMap.getBumpedStep();
+    }
+
+    function gratuitousSpin(step) {
+      $('#item' + step.id()).velocity({
+        scale: 1
+      }, {
+        duration: 500,
+        complete: function(){
+          spin(step.title());
+        }
+      });
     }
 
     function hasBumpedStep(){
@@ -288,13 +295,11 @@
     }
 
     function spin(stepTitle){
-      // Set the new wheel rotation
       var radians = parseFloat(_store[stepTitle].rotation()) || Math.PI,
       degrees = radiansToDegrees(radians);
 
-      // Now animate it, chaining other animations to the complete property
       $('#wheel').velocity({
-        rotateZ: (1080 + degrees)
+        rotateZ: [(1080 + degrees), degrees]
       }, {
         duration: 1500,
         complete: function(){
