@@ -44,6 +44,10 @@
 
 /*----- General Styles ---------------*/
 
+html {
+  overflow-x: hidden;
+}
+
 html, body {
   color: #333;
   font-family: 'merriweather', Georgia, serif;
@@ -125,24 +129,28 @@ li.menu-item a:hover {
 }
 
 #road-map {
-  border-top: 1px solid #000;
+  background-color: #000;
   height: 1px;
-  margin: 15px;
+  margin: 0 15px;
+  padding: 0;
   position: relative;
+  width: 100%;
+  z-index: 100;
 }
 
 .road-map-box {
-  border-top: 1px solid #fff;
+  // border-top: 1px solid #fff;
   cursor: pointer;
   height: 20px;
   margin: 0;
   padding: 0;
   position: absolute;
-  top: -11px;
+  top: -10px;
   width: 20px;
 }
 
 .road-map-box-description {
+  background-color: #fff;
   border: 1px solid #999;
   border-radius: 5px;
   display: none;
@@ -182,7 +190,7 @@ li.menu-item a:hover {
 }
 
 .step-box{
-  border-radius: 5px;
+  // border-radius: 5px;
   color: #fff;
   font-family: 'merriweather', Georgia, serif;
   height: 324px;

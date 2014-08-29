@@ -38,6 +38,17 @@
       });
     }
 
+    function getResponse(step, radioBtnText){
+      var responses = step.responses(),
+      len = responses.length;
+      for(var i = 0; i < len; i += 1) {
+        if(responses[i].radioBtnText() === radioBtnText) {
+          return responses[i];
+        }
+      }
+      return undefined;
+    }
+
     function getResponseTextHeight($stepBox, $responseText){
       var boxTop = $stepBox.offset().top,
       boxHeight = $stepBox.outerHeight(true) * _scale,
@@ -118,6 +129,7 @@
             })
             .on('click', function(event){
               if($(event.target).prop('checked') === true){
+                var response = getResponse(step, $(this).val());
                 ctrlScope.execute(response);
                 setResponseText(step, $(responseContainer), $(this).val());
                 $(responseContainer).removeClass('hidden')
@@ -154,9 +166,8 @@
     //---------- Public functions ----------//
 
     function initializeWheel(stepTitle){
-      var $this = $(window),
-      width = $this.width(),
-      height = $this.height(),
+      var width = $(window).width(),
+      height = $(window).height(),
       radius = 700,
       outerRadius = 862,
       radians = Math.PI,
@@ -165,18 +176,16 @@
       numSteps = keys.length,
       radIncrement = (Math.PI * 2) / numSteps,
       origin = {x: width / 2, y: outerRadius},
-      color = getRandomColor(),
-      step, key, category, stepContainer, stepBox, color, newX, newY, rotation;
+      category = '',
+      step, key, stepContainer, stepBox, color, newX, newY, rotation;
 
       $('#wheel-container').css({ 'left': (origin.x - 862) });
       window.addEventListener('resize', autoCenterWheel, false);
 
-      // iterate through the store
-      initializeIndex();
       for(var j = (numSteps - 1); j >= 0; j -= 1) {
         step = _index[j];
 
-        // Compute top and left coordinates
+        // Compute top/left coordinates
         newX = Math.floor(outerRadius - 100 + (Math.sin(radians) * radius));
         newY = Math.floor(outerRadius - 162 + (Math.cos(radians) * radius));
 
@@ -198,7 +207,7 @@
         $(stepBox).append('<div class="step-title">' + step.title() + '</div>');
         $(stepBox).append('<div class="step-text">' + step.text() + '</div>');
         $(stepBox).append()
-        $(stepBox).css({'background': color});
+        $(stepBox).css({ 'background': color });
         step.color(color);
 
         // Create and position the box container
@@ -224,6 +233,48 @@
         textRadians += radIncrement;
       }
       roadMap.initialize(_index, _store, stepTitle);
+    }
+
+    function branchRoadMap(step, response){
+      roadMap.insertBranch(step, response);
+    }
+
+    function gratuitousSpin(step) {
+      shrinkBox(step, step);
+      spin(step.title());
+    }
+
+    function get(title){
+      if(typeof title === 'undefined') {
+        return _store;
+      }
+      return _store[title];
+    }
+
+    function getBumpedStep(){
+      return roadMap.getBumpedStep();
+    }
+
+    function hasBumpedStep(){
+      return roadMap.hasBumpedStep();
+    }
+
+    function highlightRoadMapStep(stepTitle){
+      var step = _store[stepTitle];
+      roadMap.highlightStepBox(step);
+    }
+
+    function isNewBranch(response){
+      return roadMap.isNewBranch(response);
+    }
+
+    function setStore(steps) {
+      _store = {},
+      _index = [];
+      for(key in steps) {
+        _store[steps[key].title()] = steps[key];
+        _index.push(steps[key]);
+      }
     }
 
     function shrinkBox(step, nextStep){
@@ -252,43 +303,18 @@
       });
     }
 
-    function highlightRoadMapStep(stepTitle){
-      var step = _store[stepTitle];
-      roadMap.highlightStepBox(step);
-    }
-
-    function gratuitousSpin(step) {
-      shrinkBox(step, step);
-      spin(step.title());
-    }
-
-    function get(title){
-      if(typeof title === 'undefined') {
-        return _store;
-      }
-      return _store[title];
-    }
-
-    function setStore(steps) {
-      _store = {};
-      for(key in steps) {
-        _store[steps[key].title()] = steps[key];
-      }
-    }
-
-    function branchRoadMap(step, response){
-      roadMap.insertBranch(step, response);
-    }
-
     return {
       branchRoadMap: branchRoadMap,
       get: get,
+      getBumpedStep: getBumpedStep,
       gratuitousSpin: gratuitousSpin,
+      hasBumpedStep: hasBumpedStep,
       highlightRoadMapStep: highlightRoadMapStep,
       initializeWheel: initializeWheel,
-      shrinkBox: shrinkBox,
-      spin: spin,
+      isNewBranch: isNewBranch,
       setStore: setStore,
+      shrinkBox: shrinkBox,
+      spin: spin
     };
   };
 

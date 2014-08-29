@@ -34,9 +34,16 @@
 
     $scope.execute = function(response){
       if(response.mustBranch()) {
-        stepManager.branchRoadMap($scope.step, response);
+        if(stepManager.isNewBranch(response)) {
+          stepManager.branchRoadMap($scope.step, response);
+          $scope.nextStep = response.getBranchStep();
+        } else {
+          $scope.nextStep = response.getNextStep();
+          return;
+        }
+      } else {
+        $scope.nextStep = $scope.step.execute(response);
       }
-      $scope.nextStep = $scope.step.execute(response);
       resultsHelper.addQuestion($scope.step, response);
     }
 
@@ -47,8 +54,12 @@
         stepManager.shrinkBox($scope.step, $scope.nextStep);
       }
       if($scope.nextStep === undefined) {
-        alert('Please select a response');
-        return;
+        if(stepManager.hasBumpedStep()) {
+          $scope.nextStep = stepManager.getBumpedStep();
+        } else {
+          alert('Please select a response');
+          return;
+        }
       }
       reset($scope.nextStep.title(), true);
     }
