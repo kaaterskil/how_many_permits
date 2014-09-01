@@ -1,28 +1,14 @@
-(function($){
-  var IndexController = function($scope, steps, stepManager, resultsHelper){
+(function(){
+  var IndexController = function($scope, steps, stepManager, resultsHelper, stepService){
     function init(stepTitle){
       $scope.resultset = [];
       stepManager.setStore(steps);
       stepManager.initializeWheel(stepTitle);
-      reset(stepTitle);
-    }
-
-    function reset(stepTitle, shrink){
-      var nextStep = stepManager.get(stepTitle)
-      shrink = shrink || false;
-
-      if(shrink) {
-        stepManager.shrinkBox($scope.step, nextStep);
-      }
-      $scope.step = nextStep;
-      $scope.stepTitle = stepTitle;
-      $scope.nextStep = undefined;
-      stepManager.spin(stepTitle);
-      stepManager.highlightRoadMapStep(stepTitle);
+      $scope.reset(stepTitle);
     }
 
     $scope.reset = function(stepTitle, shrink){
-      reset(stepTitle, shrink);
+      stepService.reset($scope, stepTitle, shrink);
     }
 
     $scope.spinWheel = function(){
@@ -30,43 +16,19 @@
     }
 
     $scope.execute = function(response){
-      if(response.mustBranch()) {
-        if(stepManager.isNewBranch(response)) {
-          stepManager.branchRoadMap($scope.step, response);
-          $scope.nextStep = response.getBranchStep();
-        } else {
-          $scope.nextStep = response.getNextStep();
-          return;
-        }
-      } else {
-        $scope.nextStep = $scope.step.execute(response);
-      }
-      resultsHelper.addQuestion($scope.step, response);
+      stepService.execute($scope, response);
     }
 
     $scope.continue = function(){
-      var responses = $scope.step.responses();
-      if(responses.length === 1) {
-        $scope.nextStep = $scope.step.execute(responses[0]);
-        stepManager.shrinkBox($scope.step, $scope.nextStep);
-      }
-      if($scope.nextStep === undefined) {
-        if(stepManager.hasBumpedStep()) {
-          $scope.nextStep = stepManager.getBumpedStep();
-        } else {
-          alert('Please select a response');
-          return;
-        }
-      }
-      reset($scope.nextStep.title(), true);
+      stepService.showNextStep($scope);
     }
 
     $scope.toggleResults = function(){
-      $scope.showResults = !$scope.showResults;
-      if($scope.showResults) {
-        $scope.results = resultsHelper.getResults();
-      }
-      return $scope.showResults;
+      return stepService.toggleResults($scope);
+    }
+
+    $scope.print = function(){
+      window.print();
     }
 
     $scope.showResults = false;
@@ -74,8 +36,8 @@
     init('Welcome');
   };
 
-  IndexController.$inject = ['$scope', 'steps', 'stepManager', 'resultsHelper'];
+  IndexController.$inject = ['$scope', 'steps', 'stepManager', 'resultsHelper', 'stepService'];
 
   var app = angular.module('ISDApp.controllers');
   app.controller('indexController', IndexController);
-})(jQuery);
+})();

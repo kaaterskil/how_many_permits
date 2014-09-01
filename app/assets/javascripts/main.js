@@ -5,13 +5,15 @@
   angular.module('ISDApp.resultsHelper', []);
   angular.module('ISDApp.roadMap', ['ISDApp.resultsHelper']);
   angular.module('ISDApp.stepManager', ['ISDApp.step', 'ISDApp.roadMap']);
-  angular.module('ISDApp.controllers', ['ISDApp.stepManager', 'ISDApp.resultsHelper']);
+  angular.module('ISDApp.stepService', ['ISDApp.stepManager', 'ISDApp.resultsHelper']);
+  angular.module('ISDApp.controllers', ['ISDApp.stepManager', 'ISDApp.resultsHelper', 'ISDApp.stepService']);
 
   var app = angular.module('ISDApp', [
     'ngRoute',
     'ISDApp.step',
     'ISDApp.response',
     'ISDApp.dataServices',
+    'ISDApp.stepService',
     'ISDApp.controllers'
   ]);
 
