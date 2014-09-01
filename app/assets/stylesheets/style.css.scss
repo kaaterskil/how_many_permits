@@ -116,22 +116,31 @@ li.menu-item a:hover {
   margin-top: 3px;
 }
 
-#print-me {
+.results-btn, .print-btn {
   background: #fff;
   border: 1px solid #666;
   border-radius: 5px;
   color: #333;
   cursor: pointer;
-  float: right;
-  margin-right: 5px;
   padding: 5px 10px;
   position: absolute;
-  right: 20px;
   top: 0;
   z-index: 500;
 }
 
-#print-me:hover {
+.results-btn {
+  float: right;
+  margin-right: 5px;
+  right: 20px;
+}
+
+.print-btn {
+  float: left;
+  left: 20px;
+  margin-left: 5px;
+}
+
+.results-btn:hover, .print-btn:hover {
   border: none;
   background: rgb(244, 3, 15);
   color: #fff;

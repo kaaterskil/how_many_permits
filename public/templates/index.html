@@ -1,6 +1,6 @@
 <div x-ng-hide="showResults">
   <div class="title-container">
-    <div id="print-me" x-ng-click="toggleResults()">See Results</div>
+    <div class="results-btn" x-ng-click="toggleResults()">See Results</div>
     <div id="site-title">
       <h1>What Permits Do I Need?</h1>
     </div>
@@ -12,9 +12,11 @@
     <div id="wheel"></div>
   </div>
 </div>
+
 <div x-ng-show="showResults">
   <div class="title-container">
-    <div id="print-me" x-ng-click="toggleResults()">See Questionnaire</div>
+    <div class="print-btn" x-ng-click="print()">Print</div>
+    <div class="results-btn" x-ng-click="toggleResults()">See Questionnaire</div>
     <div id="site-title"><h1>What Permits Do I Need?</h1></div>
   </div>
   <div>
