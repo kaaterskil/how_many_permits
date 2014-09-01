@@ -1,15 +1,43 @@
-<div class="title-container">
-  <div id="print-me" ng-click="toggleModal()">See Results</div>
-  <div id="site-title"><h1>What Permits Do I Need?</h1></div>
-  <div class="road-map-label">My Road Map</div>
+<div x-ng-hide="showResults">
+  <div class="title-container">
+    <div id="print-me" x-ng-click="toggleResults()">See Results</div>
+    <div id="site-title">
+      <h1>What Permits Do I Need?</h1>
+    </div>
+    <div class="road-map-label">My Road Map</div>
+  </div>
+  <div id="road-map"></div>
+  <!-- <div id="spin-me" x-ng-click="spinWheel()"></div> -->
+  <div id="wheel-container">
+    <div id="wheel"></div>
+  </div>
 </div>
-<div id="road-map"></div>
-<div id="spin-me" ng-click="spinWheel()"></div>
-
-<modal-dialog show="modalShown" width="750px" height="90%">
-  <div ng-include src="'../templates/print.html'"></div>
-</modal-dialog>
-
-<div id="wheel-container">
-  <div id="wheel"></div>
+<div x-ng-show="showResults">
+  <div class="title-container">
+    <div id="print-me" x-ng-click="toggleResults()">See Questionnaire</div>
+    <div id="site-title"><h1>What Permits Do I Need?</h1></div>
+  </div>
+  <div>
+    <h3 class="results-header">Boston Business Hub Beta</h3>
+    <h1 class="results-title">Inspectional Services Department</h1>
+    <h3 class="results-header">Results for "How Many Permits Do I Need?"</h3>
+    <div class="results-meta">how-many-permits.herokuapp.com</div>
+    <div class="results-meta">Printed at {{ today | date:'medium' }}</div>
+  </div>
+  <div class="results-content-container">
+    <div class="results-content-title">Results</div>
+    <ol class="results-content">
+      <li class="results-permit" x-ng-repeat="result in results">
+        <p>{{ result.permit | uppercase }}</p>
+        <ul>
+          <li class="results-item" x-ng-repeat="item in result.items">
+            <p>{{ item.question }}</p>
+            <p>{{ item.response }}</p>
+            <p>{{ item.checklist }}</p>
+            <p>{{ item.resources }}</p>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </div>
 </div>

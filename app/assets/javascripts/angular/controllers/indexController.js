@@ -1,20 +1,5 @@
 (function($){
   var IndexController = function($scope, steps, stepManager, resultsHelper){
-    function leadingZeros(raw){
-      return raw < 10 ? '0' + raw : raw;
-    }
-
-    function today(){
-      var today = new Date(),
-      d = leadingZeros(today.getDate()),
-      m = leadingZeros(today.getMonth() + 1),
-      y = today.getFullYear(),
-      h = leadingZeros(today.getHours()),
-      i = leadingZeros(today.getMinutes()),
-      s = leadingZeros(today.getSeconds());
-      return m + '/' + d + '/' + y + ' ' + h + ':' + i + ':' + s;
-    }
-
     function init(stepTitle){
       $scope.resultset = [];
       stepManager.setStore(steps);
@@ -76,16 +61,16 @@
       reset($scope.nextStep.title(), true);
     }
 
-    $scope.toggleModal = function(){
-      $scope.modalShown = !$scope.modalShown;
-      if($scope.modalShown) {
+    $scope.toggleResults = function(){
+      $scope.showResults = !$scope.showResults;
+      if($scope.showResults) {
         $scope.results = resultsHelper.getResults();
       }
+      return $scope.showResults;
     }
 
-    // $scope.results = resultsHelper.getResults();
-    $scope.today = today();
-    $scope.modalShown = false;
+    $scope.showResults = false;
+    $scope.today = new Date();
     init('Welcome');
   };
 
