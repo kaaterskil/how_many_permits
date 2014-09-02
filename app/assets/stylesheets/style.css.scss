@@ -245,7 +245,7 @@ li.menu-item a:hover {
   padding: 10px 0;
 }
 
-.step-text, .step-response-text{
+.step-text, .step-response-text {
   font-size: 9px;
 }
 
@@ -280,10 +280,30 @@ li.menu-item a:hover {
   word-wrap: break-word;
 }
 
-.resultset-header {
-  border-bottom: 1px solid #999;
+.results-container {
+  margin: 0 auto;
+  width: 800px;
+  word-wrap: break-word;
+}
+
+.results-header-container {
   text-align: center;
 }
 
-.resultset {
+.results-meta {
+  font-size: 10px;
+
+}
+
+.results-permit {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.results-item-question {
+  font-weight: bold;
+}
+
+.results-item-response, .results-item-checklist, .results-item-resources {
+  font-style: italic;
 }

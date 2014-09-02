@@ -47,10 +47,11 @@
             results[permit] = { permit: permit, items: [] };
           }
           var result = {
-            question: 'Question ' + (i + 1) + ': ' + question.step.text(),
-            response: 'Response: ' + question.response.radioBtnText(),
-            checklist: 'Checklist: ' + question.response.resultText(),
-            resources: 'Resources: ' + question.response.resultResource()
+            questionNo: i + 1,
+            question: question.step.text(),
+            response: question.response.radioBtnText(),
+            checklist: question.response.resultText(),
+            resources: question.response.resultResource()
           };
           results[permit].items.push(result);
         });
