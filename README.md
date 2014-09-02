@@ -1,6 +1,22 @@
 ## HubHacks 2014
 ## Challenge #1: What Permits Do I Need?
 
+### Prologue
+
+This project was interesting on a number of fronts. As a demonstration of a questionnaire wizard, this is an exploration into the intricacies of a variant of the Linked List data structure. It also explores dynamically generating the list in a rich front-end environment. And it demonstrates the ability to solve the goal of the hackathon challenge by providing a means to improve the user experience and flow of questions in any number of ways without breaking the underlying system.
+
+Unlike most collections that utilize either an underlying array or hash, a linked list contains nodes that contain the assigned value and a reference to the next node. The list container knows only of the head node, and iterates through its collection via its node references. A doubly-linked list has references in both directions and therefore is aware of both its head an tail nodes.
+
+The wizard defined by the City of Boston Inspectional Services Department is offered to the site visitor as a means to identify the number of permits their project may require bsed on a series of questions and possible responses. Depending on the user's responses, new branches of questions may be triggered.
+
+We solved the data structure using the Strategy pattern in which a wizard question (called a 'Step' in this project), acts as the Context upon an unlimited number of possible concrete 'Response' Strategies. The single execute() method called by the Step on a Response simply returns the next Step.
+
+In a further twist, when a branch of questions is completed, the application picks up from the original question and continues forward, rather than ending the wizard at the end of that branch. In this way, our list has only one head and only one tail.
+
+In this manner, we dynamically create our list with a modicum of loose coupling. Now we are able to persist and iterate over our collection, create new ones, and can return questionnarie results to the user. When the user response creates a new branch of questions, the branch is inserted within the list. In addition, the user is able to select a prior question and change their response - the list will regenerate from that point, possibly creating new branches depending on the user's new reponse.
+
+Following is the text of the hackathon challenge:
+
 ### 1. Purpose
 
 Which Permits Do I Need?:  A single project may require multiple permits. Applicants need a clear, intuitive, and enjoyable guide that will help applicants identify the permits they need to start working!
